@@ -1,12 +1,18 @@
 package com.nacho91.panningview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
 
 /**
@@ -17,7 +23,7 @@ public class PanningView extends ImageView {
 
     private static final long FRAME_DELAY = 1000 / 60;
 
-    private static final long TRANSITION_DURATION = 5000;
+    private static final long TRANSITION_DURATION = 3000;
 
     private Matrix matrix = new Matrix();
 
@@ -33,6 +39,10 @@ public class PanningView extends ImageView {
 
     private long endTime;
 
+    private Drawable drawable;
+
+    private Interpolator INTERPOLATOR = new DecelerateInterpolator();
+
     public PanningView(Context context) {
         this(context, null);
     }
@@ -44,24 +54,29 @@ public class PanningView extends ImageView {
     public PanningView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.PanningView, 0, 0);
+
+        try {
+            duration = a.getInteger(R.styleable.PanningView_duration, (int) TRANSITION_DURATION);
+            drawable = a.getDrawable(R.styleable.PanningView_drawable);
+        }finally {
+            a.recycle();
+        }
+
         init();
     }
 
     private void init(){
 
-        super.setScaleType(ScaleType.MATRIX);
-
     }
 
-    @Override
-    public void setScaleType(ScaleType scaleType) {
-        throw new UnsupportedOperationException("only MATRIX scaleType is supported");
-    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        scaleFactor = (float)getHeight() / (float) getDrawable().getIntrinsicHeight();
+        scaleFactor = (float)getMeasuredHeight() / (float) getDrawable().getIntrinsicHeight();
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        matrix.reset();
         matrix.postScale(scaleFactor, scaleFactor);
 
         refreshDisplayRect();
@@ -74,37 +89,47 @@ public class PanningView extends ImageView {
     }
 
     private void refreshDisplayRect() {
-        mDisplayRect.set(0, 0, getDrawable().getIntrinsicWidth(), getDrawable().getIntrinsicHeight());
+        mDisplayRect.set(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         matrix.mapRect(mDisplayRect);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
 
-        if(lastFrameTime < endTime) {
-            elapsedTime += System.currentTimeMillis() - lastFrameTime;
-            float f = Math.min(elapsedTime / (float) duration, 1);
-            float value = mDisplayRect.left + f * (mDisplayRect.left - (mDisplayRect.right - getWidth()) - mDisplayRect.left);
+        long t = System.currentTimeMillis() - lastFrameTime;
 
+        Log.v("TAG","" + t);
 
-            Log.v("PanningView", mDisplayRect.toString());
-            Log.v("PanningView", String.valueOf(value));
+        float f = Math.max(0, Math.min(1, t / (float) duration));
+        float value = mDisplayRect.left + INTERPOLATOR.getInterpolation(f) * (mDisplayRect.right - getWidth());
 
-            matrix.reset();
-            matrix.postScale(scaleFactor, scaleFactor);
-            matrix.postTranslate(-value, 0);
+        matrix.reset();
+        matrix.postScale(scaleFactor, scaleFactor);
+        matrix.postTranslate(-value, 0);
 
-            setImageMatrix(matrix);
+        canvas.concat(matrix);
+        drawable.draw(canvas);
 
-            refreshDisplayRect();
+        //lastFrameTime = AnimationUtils.currentAnimationTimeMillis();
 
-            lastFrameTime = System.currentTimeMillis();
-            postInvalidateDelayed(FRAME_DELAY);
+        if(t < duration) {
+            //setImageMatrix(matrix);
+            Log.v("TAG","invalidate");
+           ViewCompat.postInvalidateOnAnimation(this);
+//            postInvalidateDelayed(FRAME_DELAY);
         }else{
-            start();
+//            start();
         }
 
-        super.onDraw(canvas);
+    }
+
+    private void setDrawable(int resourceId){
+        setDrawable(ContextCompat.getDrawable(getContext(), resourceId));
+    }
+
+    private void setDrawable(Drawable drawable){
+        this.drawable = drawable;
     }
 
     public void start(){
