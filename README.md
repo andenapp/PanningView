@@ -1,4 +1,4 @@
 # PanningView
-An Android library for panning a image horizontal and vertically
+The oficcial libary from Andén
 
 ![test](https://github.com/nacho91/PanningView/blob/master/captures/splash.gif)
