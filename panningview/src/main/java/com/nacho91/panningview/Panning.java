@@ -1,6 +1,8 @@
 package com.nacho91.panningview;
 
 import android.graphics.RectF;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 /**
  * Created by ignacio on 20/12/16.
@@ -16,6 +18,10 @@ public abstract class Panning {
 
     protected float yStartOffset = 0f;
     protected float yEndOffset = 0f;
+
+    private Interpolator INTERPOLATOR = new LinearInterpolator();
+
+    private Interpolator interpolator = INTERPOLATOR;
 
     public void setSize(RectF drawableRect, RectF viewRect){
         this.displayRect = drawableRect;
@@ -40,5 +46,13 @@ public abstract class Panning {
 
     public void setEndYOffset(float offset){
         this.yEndOffset = offset;
+    }
+
+    public void setInterpolator(Interpolator interpolator) {
+        this.interpolator = interpolator;
+    }
+
+    public Interpolator getInterpolator() {
+        return interpolator;
     }
 }

@@ -33,8 +33,6 @@ public class PanningView extends ImageView {
 
     private Drawable drawable;
 
-    private Interpolator INTERPOLATOR = new DecelerateInterpolator();
-
     private Panning PANNING = new HorizontalPanning(HorizontalPanning.LEFT_TO_RIGHT);
 
     private Panning panning = PANNING;
@@ -63,7 +61,7 @@ public class PanningView extends ImageView {
     }
 
     private void init(){
-
+        setImageDrawable(drawable);
     }
 
     @Override
@@ -95,7 +93,7 @@ public class PanningView extends ImageView {
 
         long t = System.currentTimeMillis() - lastFrameTime;
 
-        float f = INTERPOLATOR.getInterpolation(Math.max(0, Math.min(1, t / (float) duration)));
+        float f = Math.max(0, Math.min(1, t / (float) duration));
 
         matrix.reset();
         matrix.postScale(scaleFactor, scaleFactor);

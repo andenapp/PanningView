@@ -25,7 +25,7 @@ public class HorizontalPanning extends Panning {
 
     @Override
     public float getX(float dt) {
-        return getStartX() + dt * getEndX();
+        return getStartX() + getInterpolator().getInterpolation(dt) * getEndX();
     }
 
     @Override

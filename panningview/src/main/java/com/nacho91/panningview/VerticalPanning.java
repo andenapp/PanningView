@@ -30,9 +30,28 @@ public class VerticalPanning extends Panning {
 
     @Override
     public float getY(float dt) {
-        if(way == TOP_TO_BOTTOM)
-            return (displayRect.top - (viewRect.height() * yStartOffset))  + dt * (viewRect.height() - displayRect.bottom);
+       return getStartY()  + getInterpolator().getInterpolation(dt) * getEndY();
+    }
 
-        return viewRect.width() - displayRect.right + dt * (displayRect.right - viewRect.width());
+    private float getStartY(){
+        if(way == TOP_TO_BOTTOM)
+            return (displayRect.top - (viewRect.height() * yStartOffset));
+
+        return viewRect.width() - displayRect.right;
+    }
+
+    private float getEndY(){
+        if(way == TOP_TO_BOTTOM)
+            return (viewRect.height() - displayRect.bottom);
+
+        return (displayRect.right - viewRect.width());
+    }
+
+    private float getStartOffset(){
+        return xStartOffset;
+    }
+
+    private float getEndOffset(){
+        return xStartOffset + xEndOffset;
     }
 }
