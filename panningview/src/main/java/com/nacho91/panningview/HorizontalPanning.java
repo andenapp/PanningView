@@ -25,15 +25,33 @@ public class HorizontalPanning extends Panning {
 
     @Override
     public float getX(float dt) {
-
-        if(way == LEFT_TO_RIGHT)
-            return (displayRect.left + (viewRect.width() * offsetX)) + dt * (viewRect.width() - (displayRect.right + (viewRect.width() * 1.1f)));
-
-        return viewRect.width() - displayRect.right + dt * (displayRect.right - viewRect.width());
+        return getStartX() + dt * getEndX();
     }
 
     @Override
     public float getY(float dt) {
         return 0;
+    }
+
+    private float getStartX(){
+        if(way == LEFT_TO_RIGHT)
+            return displayRect.left + (viewRect.width() * getStartOffset());
+
+        return (viewRect.width() - displayRect.right)  - (viewRect.width() * getStartOffset());
+    }
+
+    private float getEndX(){
+        if(way == LEFT_TO_RIGHT)
+            return viewRect.width() - (displayRect.right + (viewRect.width() * getEndOffset()));
+
+        return (viewRect.width() * getEndOffset()) + (displayRect.right - viewRect.width());
+    }
+
+    private float getStartOffset(){
+        return xStartOffset;
+    }
+
+    private float getEndOffset(){
+        return xStartOffset + xEndOffset;
     }
 }

@@ -31,7 +31,7 @@ public class VerticalPanning extends Panning {
     @Override
     public float getY(float dt) {
         if(way == TOP_TO_BOTTOM)
-            return (displayRect.top - (viewRect.height() * offsetY))  + dt * (viewRect.height() - displayRect.bottom);
+            return (displayRect.top - (viewRect.height() * yStartOffset))  + dt * (viewRect.height() - displayRect.bottom);
 
         return viewRect.width() - displayRect.right + dt * (displayRect.right - viewRect.width());
     }

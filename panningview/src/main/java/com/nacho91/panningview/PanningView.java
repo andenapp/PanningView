@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
@@ -20,8 +19,6 @@ import android.widget.ImageView;
 
 public class PanningView extends ImageView {
 
-    private static final long FRAME_DELAY = 1000 / 60;
-
     private static final long TRANSITION_DURATION = 3000;
 
     private Matrix matrix = new Matrix();
@@ -30,19 +27,17 @@ public class PanningView extends ImageView {
 
     private long duration = TRANSITION_DURATION;
 
-    private long elapsedTime;
-
     private long lastFrameTime;
 
     private float scaleFactor;
-
-    private long endTime;
 
     private Drawable drawable;
 
     private Interpolator INTERPOLATOR = new DecelerateInterpolator();
 
-    private Panning panning = new HorizontalPanning(HorizontalPanning.LEFT_TO_RIGHT);
+    private Panning PANNING = new HorizontalPanning(HorizontalPanning.LEFT_TO_RIGHT);
+
+    private Panning panning = PANNING;
 
     public PanningView(Context context) {
         this(context, null);
@@ -92,7 +87,6 @@ public class PanningView extends ImageView {
         mDisplayRect.set(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         matrix.mapRect(mDisplayRect);
 
-        panning.setXOffset(1f);
         panning.setSize(mDisplayRect, new RectF(0, 0, getWidth(), getHeight()));
     }
 
@@ -101,30 +95,29 @@ public class PanningView extends ImageView {
 
         long t = System.currentTimeMillis() - lastFrameTime;
 
-        Log.v("TAG","" + t);
-
         float f = INTERPOLATOR.getInterpolation(Math.max(0, Math.min(1, t / (float) duration)));
 
         matrix.reset();
         matrix.postScale(scaleFactor, scaleFactor);
         matrix.postTranslate(panning.getX(f), panning.getY(f));
-//
+
         canvas.concat(matrix);
         drawable.draw(canvas);
 
-        //lastFrameTime = AnimationUtils.currentAnimationTimeMillis();
-
         if(t < duration) {
-            //setImageMatrix(matrix);
-            Log.v("TAG","invalidate");
            ViewCompat.postInvalidateOnAnimation(this);
-        }else{
-//            start();
         }
-
     }
 
-    private void setDrawable(int resourceId){
+    public void setDuration(long duration){
+        this.duration = duration;
+    }
+
+    public void setPanning(Panning panning){
+        this.panning = panning;
+    }
+
+    public void setDrawable(int resourceId){
         setDrawable(ContextCompat.getDrawable(getContext(), resourceId));
     }
 
@@ -134,8 +127,6 @@ public class PanningView extends ImageView {
 
     public void start(){
         lastFrameTime = System.currentTimeMillis();
-        elapsedTime = 0;
-        endTime = lastFrameTime + duration;
-//        invalidate();
+        invalidate();
     }
 }

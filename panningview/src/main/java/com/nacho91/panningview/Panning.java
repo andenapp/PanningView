@@ -11,8 +11,11 @@ public abstract class Panning {
     protected RectF displayRect;
     protected RectF viewRect;
 
-    protected float offsetX;
-    protected float offsetY;
+    protected float xStartOffset = 0f;
+    protected float xEndOffset = 0f;
+
+    protected float yStartOffset = 0f;
+    protected float yEndOffset = 0f;
 
     public void setSize(RectF drawableRect, RectF viewRect){
         this.displayRect = drawableRect;
@@ -23,11 +26,19 @@ public abstract class Panning {
 
     public abstract float getY(float dt);
 
-    public void setXOffset(float offset){
-        this.offsetX = offset;
+    public void setStartXOffset(float offset){
+        this.xStartOffset = offset;
     }
 
-    public void setYOffset(float offset){
-        this.offsetY = offset;
+    public void setEndXOffset(float offset){
+        this.xEndOffset = offset;
+    }
+
+    public void setStartYOffset(float offset){
+        this.yStartOffset = offset;
+    }
+
+    public void setEndYOffset(float offset){
+        this.yEndOffset = offset;
     }
 }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <com.nacho91.panningview.PanningView
+        android:id="@+id/panning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
