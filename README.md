@@ -1,5 +1,6 @@
-# PanningView
-The official libary from Andén
+# PanningView - The official libary from Andén
+
+PanningView provides a view that can animate background drawable. It's provide a horizontal and vertical panning (You can create your custom animation).
 
 ![Splash](https://github.com/nacho91/PanningView/blob/master/splash.gif)
 
@@ -15,7 +16,7 @@ panningView.setPanning(panning);
 ```
 ## License
 
-    Copyright 2011-2015 Ignacio Oviedo
+    Copyright 2016 Ignacio Oviedo
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
