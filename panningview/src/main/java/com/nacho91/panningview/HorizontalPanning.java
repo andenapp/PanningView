@@ -34,14 +34,14 @@ public class HorizontalPanning extends Panning {
     }
 
     private float getStartX(){
-        if(way == LEFT_TO_RIGHT)
+        if(way == RIGHT_TO_LEFT)
             return displayRect.left + (viewRect.width() * getStartOffset());
 
         return (viewRect.width() - displayRect.right)  - (viewRect.width() * getStartOffset());
     }
 
     private float getEndX(){
-        if(way == LEFT_TO_RIGHT)
+        if(way == RIGHT_TO_LEFT)
             return viewRect.width() - (displayRect.right + (viewRect.width() * getEndOffset()));
 
         return (viewRect.width() * getEndOffset()) + (displayRect.right - viewRect.width());

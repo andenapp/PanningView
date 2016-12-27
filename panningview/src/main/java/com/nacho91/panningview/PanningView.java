@@ -85,7 +85,7 @@ public class PanningView extends ImageView {
         mDisplayRect.set(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         matrix.mapRect(mDisplayRect);
 
-        panning.setSize(mDisplayRect, new RectF(0, 0, getWidth(), getHeight()));
+        panning.setSize(mDisplayRect, new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight()));
     }
 
     @Override

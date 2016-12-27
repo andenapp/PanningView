@@ -7,6 +7,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.nacho91.panningview.HorizontalPanning;
 import com.nacho91.panningview.PanningView;
+import com.nacho91.panningview.VerticalPanning;
 
 /**
  * Created by ignacio on 31/10/16.
@@ -19,13 +20,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PanningView panningView = (PanningView) findViewById(R.id.panning);
 
-        HorizontalPanning horizontalPanning = new HorizontalPanning(HorizontalPanning.RIGHT_TO_LEFT);
-        horizontalPanning.setInterpolator(new DecelerateInterpolator());
-        horizontalPanning.setStartXOffset(1f);
-        horizontalPanning.setEndXOffset(1f);
+        PanningView subway = (PanningView) findViewById(R.id.train);
 
-        panningView.setPanning(horizontalPanning);
-    }
+        HorizontalPanning subwayPanning = new HorizontalPanning(HorizontalPanning.RIGHT_TO_LEFT);
+        subwayPanning.setStartXOffset(1);
+        subwayPanning.setEndXOffset(0.5f);
+        subwayPanning.setInterpolator(new DecelerateInterpolator());
+
+        subway.setPanning(subwayPanning);
+   }
 }
