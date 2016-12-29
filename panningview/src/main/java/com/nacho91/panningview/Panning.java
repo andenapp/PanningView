@@ -7,7 +7,6 @@ import android.view.animation.LinearInterpolator;
 /**
  * Created by ignacio on 20/12/16.
  */
-
 public abstract class Panning {
 
     protected RectF displayRect;

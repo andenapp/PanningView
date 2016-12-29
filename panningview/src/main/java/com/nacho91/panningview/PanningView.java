@@ -9,15 +9,13 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
-import android.widget.ImageView;
+import android.view.View;
 
 /**
+ *
  * Created by ignacio on 06/10/16.
  */
-
-public class PanningView extends ImageView {
+public class PanningView extends View {
 
     private static final long TRANSITION_DURATION = 3000;
 
@@ -34,7 +32,7 @@ public class PanningView extends ImageView {
     private Drawable drawable;
 
     private Panning PANNING = new HorizontalPanning(HorizontalPanning.LEFT_TO_RIGHT);
-
+    
     private Panning panning = PANNING;
 
     public PanningView(Context context) {
@@ -61,13 +59,49 @@ public class PanningView extends ImageView {
     }
 
     private void init(){
-        setImageDrawable(drawable);
+        setDrawable(drawable);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        scaleFactor = (float)getMeasuredHeight() / (float) getDrawable().getIntrinsicHeight();
+
+        int desiredWidth = 0;
+        int desiredHeight = 0;
+
+        if(drawable != null){
+            desiredWidth = drawable.getIntrinsicWidth();
+            desiredHeight = drawable.getIntrinsicHeight();
+        }
+
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        int width;
+        int height;
+
+        //Measure Width
+        if (widthMode == MeasureSpec.EXACTLY) {
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            width = Math.min(desiredWidth, widthSize);
+        } else {
+            width = desiredWidth;
+        }
+
+        //Measure Height
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST) {
+            height = Math.min(desiredHeight, heightSize);
+        } else {
+            height = desiredHeight;
+        }
+
+        setMeasuredDimension(width, height);
+
+        scaleFactor = (float)getMeasuredHeight() / (float) drawable.getIntrinsicHeight();
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         matrix.reset();
         matrix.postScale(scaleFactor, scaleFactor);
