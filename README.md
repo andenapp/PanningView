@@ -4,9 +4,15 @@ PanningView provides a view that can animate background drawable. It's provide a
 
 ![Splash](https://github.com/nacho91/PanningView/blob/master/splash.gif)
 
-###### Features
+### Setup
 
-###### Horizontal Panning
+```gradle
+    compile 'com.nacho91:panningview:0.0.1'	
+```
+
+### Features
+
+#### Horizontal Panning
 
 ```java
 HorizontalPanning panning = new HorizontalPanning(HorizontalPanning.RIGHT_TO_LEFT);

@@ -32,7 +32,7 @@ public class PanningView extends View {
     private Drawable drawable;
 
     private Panning PANNING = new HorizontalPanning(HorizontalPanning.LEFT_TO_RIGHT);
-    
+
     private Panning panning = PANNING;
 
     public PanningView(Context context) {
