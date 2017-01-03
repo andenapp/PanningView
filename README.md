@@ -7,12 +7,23 @@ PanningView provides a view that can animate background drawable. It's provide a
 ### Setup
 
 ```gradle
-    compile 'com.nacho91:panningview:0.0.1'	
+compile 'com.nacho91:panningview:0.0.1'	
 ```
 
-### Features
+### Usage
 
-#### Horizontal Panning
+Declare PanningView in your XML
+
+```xml
+ <com.nacho91.panningview.PanningView
+    android:id="@+id/panning"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:duration="YOUR_DURATION_IN_MS"
+    app:drawable="YOUR_DRAWABLE" />
+```
+
+Set one of the available panning implementations
 
 ```java
 HorizontalPanning panning = new HorizontalPanning(HorizontalPanning.RIGHT_TO_LEFT);
@@ -20,6 +31,7 @@ HorizontalPanning panning = new HorizontalPanning(HorizontalPanning.RIGHT_TO_LEF
 PanningView panningView = (PanningView) findViewById(R.id.panning);
 panningView.setPanning(panning);
 ```
+
 ## License
 
     Copyright 2016 Ignacio Oviedo
