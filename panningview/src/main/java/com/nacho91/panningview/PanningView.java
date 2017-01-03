@@ -17,6 +17,10 @@ import android.view.View;
  */
 public class PanningView extends View {
 
+    public interface PanningListener{
+        void onPanningEnd(PanningView panningView);
+    }
+
     private static final long TRANSITION_DURATION = 3000;
 
     private Matrix matrix = new Matrix();
@@ -34,6 +38,8 @@ public class PanningView extends View {
     private Panning PANNING = new HorizontalPanning(HorizontalPanning.LEFT_TO_RIGHT);
 
     private Panning panning = PANNING;
+
+    private PanningListener panningListener;
 
     public PanningView(Context context) {
         this(context, null);
@@ -138,6 +144,10 @@ public class PanningView extends View {
 
         if(t < duration) {
            ViewCompat.postInvalidateOnAnimation(this);
+        }else{
+            if(panningListener != null){
+                panningListener.onPanningEnd(this);
+            }
         }
     }
 
@@ -160,5 +170,9 @@ public class PanningView extends View {
     public void start(){
         lastFrameTime = System.currentTimeMillis();
         invalidate();
+    }
+
+    public void setPanningListener(PanningListener panningListener) {
+        this.panningListener = panningListener;
     }
 }

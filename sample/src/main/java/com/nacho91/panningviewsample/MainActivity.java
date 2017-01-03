@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Toast;
 
 import com.nacho91.panningview.HorizontalPanning;
 import com.nacho91.panningview.PanningView;
@@ -22,6 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         PanningView subway = (PanningView) findViewById(R.id.train);
+
+        subway.setPanningListener(new PanningView.PanningListener() {
+            @Override
+            public void onPanningEnd(PanningView panningView) {
+                Toast.makeText(MainActivity.this, "Finish", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         HorizontalPanning subwayPanning = new HorizontalPanning(HorizontalPanning.RIGHT_TO_LEFT);
         subwayPanning.setStartXOffset(1);
