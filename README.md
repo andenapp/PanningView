@@ -6,13 +6,27 @@ PanningView provides a view that can animate background drawable. It's provide a
 
 ### Setup
 
+Gradle dependency
+
 ```gradle
 compile 'com.nacho91:panningview:0.0.1'	
 ```
 
+or
+
+Maven dependency
+
+```xml
+<dependency>
+  <groupId>com.nacho91</groupId>
+  <artifactId>panningview</artifactId>
+  <version>0.0.1</version>
+</dependency>
+```
+
 ### Usage
 
-Declare PanningView in your XML
+Declare the PanningView in your XML
 
 ```xml
  <com.nacho91.panningview.PanningView
