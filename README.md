@@ -1,4 +1,4 @@
-# PanningView - The official libray from Andén
+# PanningView - The official library from Andén
 
 PanningView provides a view that can animate background drawable. It's provide a horizontal and vertical panning (You can create your custom animation).
 
