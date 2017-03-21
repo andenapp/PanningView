@@ -19,13 +19,32 @@ public class HorizontalPanning extends Panning {
 
     private int way;
 
+    private float startX;
+    private float endX;
+
     public HorizontalPanning(@Way int way){
         this.way = way;
+        this.startX = calculateStartX();
+        this.endX = calculateEndX();
+    }
+
+    private float calculateStartX(){
+        if(way == RIGHT_TO_LEFT)
+            return displayRect.left + (viewRect.width() * getStartOffset());
+
+        return (viewRect.width() - displayRect.right)  - (viewRect.width() * getStartOffset());
+    }
+
+    private float calculateEndX(){
+        if(way == RIGHT_TO_LEFT)
+            return viewRect.width() - (displayRect.right + (viewRect.width() * getEndOffset()));
+
+        return (viewRect.width() * getEndOffset()) + (displayRect.right - viewRect.width());
     }
 
     @Override
     public float getX(float dt) {
-        return getStartX() + getInterpolator().getInterpolation(dt) * getEndX();
+        return startX + getInterpolator().getInterpolation(dt) * endX;
     }
 
     @Override
@@ -33,19 +52,6 @@ public class HorizontalPanning extends Panning {
         return 0;
     }
 
-    private float getStartX(){
-        if(way == RIGHT_TO_LEFT)
-            return displayRect.left + (viewRect.width() * getStartOffset());
-
-        return (viewRect.width() - displayRect.right)  - (viewRect.width() * getStartOffset());
-    }
-
-    private float getEndX(){
-        if(way == RIGHT_TO_LEFT)
-            return viewRect.width() - (displayRect.right + (viewRect.width() * getEndOffset()));
-
-        return (viewRect.width() * getEndOffset()) + (displayRect.right - viewRect.width());
-    }
 
     private float getStartOffset(){
         return xStartOffset;
