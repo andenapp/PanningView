@@ -1,5 +1,6 @@
 package com.nacho91.panningview;
 
+import android.graphics.RectF;
 import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
@@ -24,6 +25,11 @@ public class HorizontalPanning extends Panning {
 
     public HorizontalPanning(@Way int way){
         this.way = way;
+    }
+
+    @Override
+    public void setSize(RectF drawableRect, RectF viewRect) {
+        super.setSize(drawableRect, viewRect);
         this.startX = calculateStartX();
         this.endX = calculateEndX();
     }

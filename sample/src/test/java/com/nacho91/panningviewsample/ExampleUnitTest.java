@@ -1,5 +1,12 @@
 package com.nacho91.panningviewsample;
 
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

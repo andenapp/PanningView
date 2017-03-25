@@ -1,5 +1,6 @@
 package com.nacho91.panningview;
 
+import android.graphics.RectF;
 import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
@@ -8,7 +9,6 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created by ignacio on 20/12/16.
  */
-
 public class VerticalPanning extends Panning {
 
     @Retention(RetentionPolicy.SOURCE)
@@ -24,6 +24,11 @@ public class VerticalPanning extends Panning {
 
     public VerticalPanning(@Way int way){
         this.way = way;
+    }
+
+    @Override
+    public void setSize(RectF drawableRect, RectF viewRect) {
+        super.setSize(drawableRect, viewRect);
         this.startY = calculateStartY();
         this.endY = calculateEndY();
     }

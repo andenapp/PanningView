@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -23,13 +24,22 @@ public class PanningView extends View {
 
     private static final long TRANSITION_DURATION = 3000;
 
+    private static final int PAUSE_STATE = 0;
+    private static final int START_STATE = 1;
+
+    private int state = PAUSE_STATE;
+
     private Matrix matrix = new Matrix();
 
-    private RectF mDisplayRect = new RectF();
+    private RectF displayRect = new RectF();
 
     private long duration = TRANSITION_DURATION;
 
     private long lastFrameTime;
+
+    private long elapsedTime;
+
+    private long pausedTime;
 
     private float scaleFactor;
 
@@ -107,12 +117,7 @@ public class PanningView extends View {
 
         setMeasuredDimension(width, height);
 
-        scaleFactor = (float)getMeasuredHeight() / (float) drawable.getIntrinsicHeight();
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        matrix.reset();
-        matrix.postScale(scaleFactor, scaleFactor);
-
-        refreshDisplayRect();
+        calculateValues();
     }
 
     @Override
@@ -121,19 +126,28 @@ public class PanningView extends View {
         start();
     }
 
-    private void refreshDisplayRect() {
-        mDisplayRect.set(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        matrix.mapRect(mDisplayRect);
+    private void calculateValues(){
+        scaleFactor = (float)getMeasuredHeight() / (float) drawable.getIntrinsicHeight();
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        matrix.reset();
+        matrix.postScale(scaleFactor, scaleFactor);
 
-        panning.setSize(mDisplayRect, new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight()));
+        refreshDisplayRect();
+    }
+
+    private void refreshDisplayRect() {
+        displayRect.set(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        matrix.mapRect(displayRect);
+
+        panning.setSize(displayRect, new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight()));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 
-        long t = System.currentTimeMillis() - lastFrameTime;
+        elapsedTime += System.currentTimeMillis() - lastFrameTime;;
 
-        float f = Math.max(0, Math.min(1, t / (float) duration));
+        float f = Math.max(0, Math.min(1, elapsedTime / (float) duration));
 
         matrix.reset();
         matrix.postScale(scaleFactor, scaleFactor);
@@ -142,8 +156,13 @@ public class PanningView extends View {
         canvas.concat(matrix);
         drawable.draw(canvas);
 
-        if(t < duration) {
-           ViewCompat.postInvalidateOnAnimation(this);
+        if(state == PAUSE_STATE) {
+            return;
+        }
+
+        if(elapsedTime < duration) {
+            lastFrameTime = System.currentTimeMillis();
+            ViewCompat.postInvalidateOnAnimation(this);
         }else{
             if(panningListener != null){
                 panningListener.onPanningEnd(this);
@@ -168,8 +187,26 @@ public class PanningView extends View {
     }
 
     public void start(){
+        state = START_STATE;
         lastFrameTime = System.currentTimeMillis();
+        elapsedTime = 0;
         invalidate();
+    }
+
+    public void resume(){
+        state = START_STATE;
+        lastFrameTime += System.currentTimeMillis() - pausedTime;
+        invalidate();
+    }
+
+    public void pause(){
+        state = PAUSE_STATE;
+        pausedTime = System.currentTimeMillis();
+        invalidate();
+    }
+
+    public boolean isPaused(){
+        return state == PAUSE_STATE;
     }
 
     public void setPanningListener(PanningListener panningListener) {
