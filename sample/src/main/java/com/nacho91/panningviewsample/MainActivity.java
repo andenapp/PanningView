@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.nacho91.panningview.HorizontalPanning;
+import com.nacho91.panningview.Panning;
 import com.nacho91.panningview.PanningView;
 import com.nacho91.panningview.VerticalPanning;
 
@@ -18,25 +19,75 @@ import com.nacho91.panningview.VerticalPanning;
 
 public class MainActivity extends AppCompatActivity {
 
+    private PanningView subway;
+
+    private Button start;
+    private Button pause;
+    private Button resume;
+
+    private Button horizontal;
+    private Button vertical;
+
     @Override
     protected void onCreate(@org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final PanningView subway = (PanningView) findViewById(R.id.train);
+        subway = (PanningView) findViewById(R.id.train);
 
         subway.setPanningListener(new PanningView.PanningListener() {
             @Override
             public void onPanningEnd(PanningView panningView) {
-                Toast.makeText(MainActivity.this, "Finish", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Panning Finish", Toast.LENGTH_SHORT).show();
             }
         });
 
-        HorizontalPanning subwayPanning = new HorizontalPanning(HorizontalPanning.RIGHT_TO_LEFT);
-        subwayPanning.setStartXOffset(1);
-        subwayPanning.setEndXOffset(0.5f);
-        subwayPanning.setInterpolator(new DecelerateInterpolator());
+        start = (Button) findViewById(R.id.start);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subway.start();
+            }
+        });
 
-        subway.setPanning(subwayPanning);
-   }
+        pause = (Button) findViewById(R.id.pause);
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subway.pause();
+            }
+        });
+
+        resume = (Button) findViewById(R.id.resume);
+        resume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subway.resume();
+            }
+        });
+
+        vertical = (Button) findViewById(R.id.vertical);
+        vertical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VerticalPanning verticalPanning = new VerticalPanning(VerticalPanning.BOTTOM_TO_TOP);
+                verticalPanning.setStartYOffset(0.5f);
+                verticalPanning.setEndYOffset(0.5f);
+
+                subway.setPanning(verticalPanning );
+            }
+        });
+
+        horizontal = (Button) findViewById(R.id.horizontal);
+        horizontal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HorizontalPanning verticalPanning = new HorizontalPanning(HorizontalPanning.LEFT_TO_RIGHT);
+                verticalPanning.setStartYOffset(0.5f);
+                verticalPanning.setEndYOffset(0.5f);
+
+                subway.setPanning(verticalPanning );
+            }
+        });
+    }
 }

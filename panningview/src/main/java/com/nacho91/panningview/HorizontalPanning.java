@@ -35,17 +35,25 @@ public class HorizontalPanning extends Panning {
     }
 
     private float calculateStartX(){
-        if(way == RIGHT_TO_LEFT)
-            return displayRect.left + (viewRect.width() * getStartOffset());
 
-        return (viewRect.width() - displayRect.right)  - (viewRect.width() * getStartOffset());
+        RectF displayRect = getDisplaySize();
+        RectF viewRect = getViewSize();
+
+        if(way == RIGHT_TO_LEFT)
+            return displayRect.left + (viewRect.width() * getStartXOffset());
+
+        return (viewRect.width() - displayRect.right)  - (viewRect.width() * getStartXOffset());
     }
 
     private float calculateEndX(){
-        if(way == RIGHT_TO_LEFT)
-            return viewRect.width() - (displayRect.right + (viewRect.width() * getEndOffset()));
 
-        return (viewRect.width() * getEndOffset()) + (displayRect.right - viewRect.width());
+        RectF displayRect = getDisplaySize();
+        RectF viewRect = getViewSize();
+
+        if(way == RIGHT_TO_LEFT)
+            return viewRect.width() - (displayRect.right + (viewRect.width() * getEndXOffset()));
+
+        return (viewRect.width() * getEndXOffset()) + (displayRect.right - viewRect.width());
     }
 
     @Override
@@ -58,12 +66,4 @@ public class HorizontalPanning extends Panning {
         return 0;
     }
 
-
-    private float getStartOffset(){
-        return xStartOffset;
-    }
-
-    private float getEndOffset(){
-        return xStartOffset + xEndOffset;
-    }
 }

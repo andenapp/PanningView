@@ -9,12 +9,10 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
- *
- * Created by ignacio on 06/10/16.
+ * View can display a {@link Drawable} with a {@link Panning} animation
  */
 public class PanningView extends View {
 
@@ -34,6 +32,8 @@ public class PanningView extends View {
     private RectF displayRect = new RectF();
 
     private long duration = TRANSITION_DURATION;
+
+    private boolean autoStart;
 
     private long lastFrameTime;
 
@@ -67,6 +67,7 @@ public class PanningView extends View {
         try {
             duration = a.getInteger(R.styleable.PanningView_duration, (int) TRANSITION_DURATION);
             drawable = a.getDrawable(R.styleable.PanningView_drawable);
+            autoStart = a.getBoolean(R.styleable.PanningView_autoStart, false);
         }finally {
             a.recycle();
         }
@@ -123,7 +124,8 @@ public class PanningView extends View {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        start();
+        if(autoStart)
+            start();
     }
 
     private void calculateValues(){
@@ -145,7 +147,8 @@ public class PanningView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        elapsedTime += System.currentTimeMillis() - lastFrameTime;;
+        if(state == START_STATE)
+            elapsedTime += System.currentTimeMillis() - lastFrameTime;;
 
         float f = Math.max(0, Math.min(1, elapsedTime / (float) duration));
 
@@ -170,12 +173,19 @@ public class PanningView extends View {
         }
     }
 
+    /**
+     * Sets the duration of the animation
+     */
     public void setDuration(long duration){
         this.duration = duration;
     }
 
+    /**
+     * Sets the {@link Panning} implementation of the animation
+     */
     public void setPanning(Panning panning){
         this.panning = panning;
+        requestLayout();
     }
 
     public void setDrawable(int resourceId){
@@ -186,6 +196,9 @@ public class PanningView extends View {
         this.drawable = drawable;
     }
 
+    /**
+     * Start the animation
+     */
     public void start(){
         state = START_STATE;
         lastFrameTime = System.currentTimeMillis();
@@ -193,18 +206,27 @@ public class PanningView extends View {
         invalidate();
     }
 
+    /**
+     * Resume the current animation previous call {@link PanningView#pause()}
+     */
     public void resume(){
         state = START_STATE;
         lastFrameTime += System.currentTimeMillis() - pausedTime;
         invalidate();
     }
 
+    /**
+     * Pause the current animation
+     */
     public void pause(){
         state = PAUSE_STATE;
         pausedTime = System.currentTimeMillis();
         invalidate();
     }
 
+    /**
+     * Returns if the animation isPaused, only returne true when {@link PanningView#pause()} was called
+     **/
     public boolean isPaused(){
         return state == PAUSE_STATE;
     }
