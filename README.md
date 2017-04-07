@@ -1,4 +1,4 @@
-# PanningView - The official library from Andén
+# PanningView - The official library from Andén [![GitHub release](https://img.shields.io/github/release/nacho91/PanningView.svg?style=flat-square)](https://github.com/nacho91/PanningView/releases/tag/1.0.0)
 
 PanningView provides a view that can animate background drawable. It's provide a horizontal and vertical panning (You can create your custom animation).
 
