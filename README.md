@@ -47,6 +47,16 @@ PanningView panningView = (PanningView) findViewById(R.id.panning);
 panningView.setPanning(panning);
 ```
 
+## Docs
+
+[Java Docs](https://nacho91.github.io/PanningView/)
+
+## Developed By
+
+* Ignacio Oviedo 
+ 
+&nbsp;&nbsp;&nbsp;**Email** - oviedoignacio91@gmail.com
+
 ## License
 
     Copyright 2016 Ignacio Oviedo
