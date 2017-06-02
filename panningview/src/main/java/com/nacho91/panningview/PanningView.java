@@ -17,6 +17,7 @@ import android.view.View;
 public class PanningView extends View {
 
     public interface PanningListener{
+        void onPanningStart(PanningView panningView);
         void onPanningEnd(PanningView panningView);
     }
 
@@ -204,6 +205,7 @@ public class PanningView extends View {
         lastFrameTime = System.currentTimeMillis();
         elapsedTime = 0;
         invalidate();
+        panningListener.onPanningStart(this);
     }
 
     /**

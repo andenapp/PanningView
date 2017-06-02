@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
         subway.setPanningListener(new PanningView.PanningListener() {
             @Override
+            public void onPanningStart(PanningView panningView) {
+                Toast.makeText(MainActivity.this, "Panning Start", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
             public void onPanningEnd(PanningView panningView) {
                 Toast.makeText(MainActivity.this, "Panning Finish", Toast.LENGTH_SHORT).show();
             }
