@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
