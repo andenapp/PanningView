@@ -3,12 +3,12 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'com.nacho91.panningview'
     PUBLISH_ARTIFACT_ID = 'panning-view'
-    PUBLISH_VERSION = '1.0.0'
+    PUBLISH_VERSION = '1.0.1'
 }
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         minSdkVersion 9
@@ -28,5 +28,6 @@ dependencies {
     compile 'com.android.support:support-annotations:25.3.1'
     compile 'com.android.support:support-compat:25.3.1'
 }
+
 
 apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
