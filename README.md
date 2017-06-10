@@ -9,7 +9,7 @@ PanningView provides a view that can animate background drawable. It's provide a
 Gradle dependency
 
 ```gradle
-compile 'com.nacho91.panningview:panning-view:1.0.0'
+compile 'com.nacho91.panningview:panning-view:1.0.1'
 ```
 
 or
