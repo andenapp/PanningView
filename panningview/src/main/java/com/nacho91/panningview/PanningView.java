@@ -205,7 +205,8 @@ public class PanningView extends View {
         lastFrameTime = System.currentTimeMillis();
         elapsedTime = 0;
         invalidate();
-        panningListener.onPanningStart(this);
+        if(panningListener != null)
+            panningListener.onPanningStart(this);
     }
 
     /**

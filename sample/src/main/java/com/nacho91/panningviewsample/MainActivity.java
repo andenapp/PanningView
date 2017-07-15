@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Panning Finish", Toast.LENGTH_SHORT).show();
             }
         });
-
-
+        
         start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
