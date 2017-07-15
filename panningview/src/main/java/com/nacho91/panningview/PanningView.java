@@ -189,6 +189,10 @@ public class PanningView extends View {
         requestLayout();
     }
 
+    public Panning getPanning(){
+        return this.panning;
+    }
+
     public void setDrawable(int resourceId){
         setDrawable(ContextCompat.getDrawable(getContext(), resourceId));
     }
