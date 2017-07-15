@@ -1,4 +1,4 @@
-# PanningView - The official library from Andén [![GitHub release](https://img.shields.io/github/release/nacho91/PanningView.svg?style=flat-square)](https://github.com/nacho91/PanningView/releases/tag/1.0.0)
+# PanningView - The official library from Andén [![GitHub release](https://img.shields.io/github/release/nacho91/PanningView.svg?style=flat-square)](https://github.com/nacho91/PanningView/releases/tag/1.0.1)
 
 PanningView provides a view that can animate background drawable. It's provide a horizontal and vertical panning (You can create your custom animation).
 
@@ -9,7 +9,7 @@ PanningView provides a view that can animate background drawable. It's provide a
 Gradle dependency
 
 ```gradle
-compile 'com.nacho91.panningview:panning-view:1.0.0'
+compile 'com.nacho91.panningview:panning-view:1.0.1'
 ```
 
 or
@@ -20,7 +20,7 @@ Maven dependency
 <dependency>
   <groupId>com.nacho91.panningview</groupId>
   <artifactId>panning-view</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>pom</type>
 </dependency>
 ```
