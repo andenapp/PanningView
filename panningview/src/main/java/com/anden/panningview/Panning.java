@@ -1,4 +1,4 @@
-package com.nacho91.panningview;
+package com.anden.panningview;
 
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;

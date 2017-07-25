@@ -1,17 +1,14 @@
-package com.nacho91.panningviewsample;
+package com.anden.panningviewsample;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.nacho91.panningview.HorizontalPanning;
-import com.nacho91.panningview.Panning;
-import com.nacho91.panningview.PanningView;
-import com.nacho91.panningview.VerticalPanning;
+import com.anden.panningview.HorizontalPanning;
+import com.anden.panningview.PanningView;
+import com.anden.panningview.VerticalPanning;
 
 /**
  * Created by ignacio on 31/10/16.

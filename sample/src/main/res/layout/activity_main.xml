@@ -56,7 +56,7 @@
 
     </LinearLayout>
 
-    <com.nacho91.panningview.PanningView
+    <com.anden.panningview.PanningView
         android:id="@+id/train"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

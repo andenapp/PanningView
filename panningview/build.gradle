@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 ext {
-    PUBLISH_GROUP_ID = 'com.nacho91.panningview'
+    PUBLISH_GROUP_ID = 'com.anden.panningview'
     PUBLISH_ARTIFACT_ID = 'panning-view'
     PUBLISH_VERSION = '1.0.2'
 }

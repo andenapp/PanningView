@@ -1,11 +1,4 @@
-package com.nacho91.panningviewsample;
-
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+package com.anden.panningviewsample;
 
 import org.junit.Test;
 

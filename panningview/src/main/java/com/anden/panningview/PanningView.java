@@ -1,4 +1,4 @@
-package com.nacho91.panningview;
+package com.anden.panningview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
