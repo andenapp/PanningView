@@ -9,7 +9,7 @@ PanningView provides a view that can animate background drawable. It's provide a
 Gradle dependency
 
 ```gradle
-compile 'com.nacho91.panningview:panning-view:1.0.1'
+compile 'com.anden.panningview:panning-view:1.0.2'
 ```
 
 or
@@ -18,9 +18,9 @@ Maven dependency
 
 ```xml
 <dependency>
-  <groupId>com.nacho91.panningview</groupId>
+  <groupId>com.anden.panningview</groupId>
   <artifactId>panning-view</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -30,7 +30,7 @@ Maven dependency
 Declare the PanningView in your XML
 
 ```xml
- <com.nacho91.panningview.PanningView
+ <com.anden.panningview.PanningView
     android:id="@+id/panning"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -49,7 +49,7 @@ panningView.setPanning(panning);
 
 ## Docs
 
-[Java Docs](https://nacho91.github.io/PanningView/)
+[Java Docs](https://andenapp.github.io/PanningView/)
 
 ## Developed By
 
