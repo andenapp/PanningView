@@ -1,1 +1,18 @@
-<h1>Panning View</h1>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"></script>
+	<script src="js/panningview.js"></script>
+	<!--<script src="js/sketch.js"></script>-->
+</head>
+<body>
+	<h1>Live example</h1>
+	<div id='subway'></div>
+	<script>
+  		var subway = new PanningView(window.document.getElementById('subway'), "images/subway.png");
+  		subway.setDuration(5000);
+  		subway.start();
+  	</script>
+</body>
+</html>
