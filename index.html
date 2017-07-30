@@ -8,11 +8,17 @@
 </head>
 <body>
 	<h1>Live example</h1>
-	<div id='subway'></div>
-	<script>
+	<div id='subway' style="width:864px;height:260px;"></div>
+  	<button id="startSubway">Start</button>
+  	<script>
   		var subway = new PanningView(window.document.getElementById('subway'), "images/subway.png");
-  		subway.setDuration(5000);
-  		subway.start();
+
+  		document.getElementById("startSubway").addEventListener("click", startSubway);
+
+  		function startSubway(){
+  			subway.start();
+  		};
+
   	</script>
 </body>
 </html>

@@ -1,8 +1,10 @@
 function PanningView(container, imageSource){
 
-	var lastFrameTime;
-	var elapsedTime;
+	var lastFrameTime = 0;
+	var elapsedTime = 0;
 	var duration = 3000;
+
+	var panning;
 
 	var started = false;
 
@@ -10,35 +12,36 @@ function PanningView(container, imageSource){
 
 	var sketch = function(p) {
     	p.setup = function(){
-    		img = p.loadImage(imageSource);
-      		p.createCanvas(720, 640);
-      		
-    	};
+    		p.createCanvas(container.offsetWidth, container.offsetHeight);
+
+      		panning = new Panning();
+
+    		img = p.loadImage(imageSource, function(img) {
+    			panning.setSize(p.createVector(img.width, img.height), p.createVector(p.canvas.width, p.canvas.height));
+  				p.loop();
+  			});
+
+  			p.noLoop();
+      	};
 
     	p.draw = function(){
     		p.background(255);
 
-    		if(started){
+    		if(started)
 				elapsedTime += Date.now() - lastFrameTime;;
 
-				var f = p.constrain(elapsedTime / duration, 0, 1);
+			var f = p.constrain(elapsedTime / duration, 0, 1);
 
-				var x = (p.canvas.width) + (f * (p.canvas.width - (img.width + p.canvas.width))); 
+    		p.image(img, panning.getX(f), 0);    			
 
-    			p.image(img, x, 0);
-    			
+    		if(elapsedTime < duration)
+            	lastFrameTime = Date.now();
 
-    			if(elapsedTime < duration)
-            		lastFrameTime = Date.now();
-
-            	return;
-    		}
-
-    		p.image(img, 0, 0);
+            
     	};
  	};
 
-	this.view = new p5(sketch, container);
+	var view = new p5(sketch, container);
 
 	this.start = function(){
 		started = true;
@@ -49,6 +52,44 @@ function PanningView(container, imageSource){
 	this.setDuration = function(d){
 		duration = d;
 	};
+
+	this.setPanning = function(p){
+		panning = p;
+	}
+};
+
+function Panning(){
+
+	var displaySize;
+	var viewSize;
+
+	var startOffset = 0;
+	var endOffset = 0;
+
+	this.setSize = function(d, v){
+		displaySize = d;
+		viewSize = v;
+	};
+
+	this.setStartOffset = function(offset){
+		startOffset = offset;
+	};
+
+	this.setEndOffset = function(offset){
+		endOffset = offset;	
+	};
+
+	this.getEndOffset = function(){
+		return startOffset + endOffset;
+	};
+
+	this.getX = function(delta){
+		var start = (viewSize.x * startOffset);
+		var end = (viewSize.x - displaySize.x);
+
+		return start + delta * end;
+	};
+
 };
 
   
