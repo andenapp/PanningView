@@ -1,6 +1,7 @@
 package com.anden.panningview;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -9,12 +10,15 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
  * View can display a {@link Drawable} with a {@link Panning} animation
  */
 public class PanningView extends View {
+
+    static final String TAG = "PanningView";
 
     public interface PanningListener{
         void onPanningStart(PanningView panningView);
@@ -67,9 +71,11 @@ public class PanningView extends View {
 
         try {
             duration = a.getInteger(R.styleable.PanningView_duration, (int) TRANSITION_DURATION);
-            drawable = a.getDrawable(R.styleable.PanningView_drawable);
             autoStart = a.getBoolean(R.styleable.PanningView_autoStart, false);
-        }finally {
+            drawable = a.getDrawable(R.styleable.PanningView_drawable);
+        } catch (Resources.NotFoundException exception) {
+            Log.e(TAG, "Drawable resource not found", exception);
+        } finally {
             a.recycle();
         }
 
@@ -130,6 +136,10 @@ public class PanningView extends View {
     }
 
     private void calculateValues(){
+
+        if (drawable == null)
+            return;
+
         scaleFactor = (float)getMeasuredHeight() / (float) drawable.getIntrinsicHeight();
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         matrix.reset();
@@ -139,6 +149,10 @@ public class PanningView extends View {
     }
 
     private void refreshDisplayRect() {
+
+        if (drawable == null)
+            return;
+
         displayRect.set(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         matrix.mapRect(displayRect);
 
@@ -148,8 +162,11 @@ public class PanningView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
+        if (drawable == null)
+            return;
+
         if(state == START_STATE)
-            elapsedTime += System.currentTimeMillis() - lastFrameTime;;
+            elapsedTime += System.currentTimeMillis() - lastFrameTime;
 
         float f = Math.max(0, Math.min(1, elapsedTime / (float) duration));
 
